@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Abdulboriy.uz — SaaS Raqamli Kutubxona va Mutolaa Portali</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#b8860b',
+            primaryLight: '#d4af37',
+            darkBg: '#090d16',
+            cardBg: '#0f172a',
+            surfaceBg: '#1e293b',
+            accentCream: '#fef3c7'
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom Glassmorphism & SaaS Styles */
+    body {
+      background-color: #090d16;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(184, 134, 11, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(30, 41, 59, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(184, 134, 11, 0.28);
+      border-radius: 1rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .glass-card-subtle {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .gold-gradient-btn {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: #090d16;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(184, 134, 11, 0.35);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gold-gradient-btn:hover {
+      background: linear-gradient(135deg, #e6c35c, #d4af37);
+      transform: translateY(-1px);
+    }
+    .gold-gradient-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Modal Animation */
+    .modal-active {
+      display: flex !important;
+      animation: modalFadeIn 0.2s ease-out forwards;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Toast Notification */
+    #toastNotification {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+    }
+    .toast-show {
+      transform: translateY(0) !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b8860b;
+    }
+  </style>
+</head>
+<body class="selection:bg-primary selection:text-black">
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="fixed top-5 right-5 z-[9999] transform -translate-y-12 opacity-0 pointer-events-none bg-slate-900 border border-primary text-slate-100 px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+    <span id="toastIcon" class="text-xl">✨</span>
+    <span id="toastMessage" class="text-sm font-semibold">Xabarnoma</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 1. LOGIN & REGISTER SAHIFASI               -->
+  <!-- ========================================== -->
+  <div id="loginView" class="flex items-center justify-center min-h-screen p-4">
+    <div class="glass-card p-8 rounded-2xl w-full max-w-md">
+      <!-- Brand Header -->
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <path d="M12 6v6"/>
+            <path d="M9 9h6"/>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold font-serif tracking-tight text-accentCream">Abdulboriy.uz</h1>
+        <p class="text-slate-400 text-xs mt-1 uppercase tracking-wider font-semibold">SaaS Raqamli Kutubxona & 500,000 Kitoblar</p>
+      </div>
+
+      <!-- Auth Switch Tabs -->
+      <div class="flex gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 mb-6">
+        <button id="authTabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-primary text-black transition">Kirish</button>
+        <button id="authTabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition">Ro'yxatdan o'tish</button>
+      </div>
+
+      <!-- Login Form (NO quick test accounts buttons!) -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-300 mb-1.5 font-semibold">Login yoki Foydalanuvchi nomi</label>
+          <input type="text" id="loginUsername" required autocomplete="username" placeholder="Loginni kiriting" class="w-full bg-slate-900/90 border border-slate-700 focus:border-primary rounded-xl px-4 py-3 text-slate-100 text-sm focus:outline-none transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-300 mb-1.5 font-semibold">Maxfiy Parol</label>
+          <div class="relative flex items-center">
+            <input type="password" id="loginPassword" required autocomplete="current-password" placeholder="Parolingizni kiriting" class="w-full bg-slate-900/90 border border-slate-700 focus:border-primary rounded-xl px-4 py-3 text-slate-100 text-sm focus:outline-none pr-12 transition">
+            <button type="button" onclick="togglePasswordView('loginPassword', this)" class="absolute right-3.5 text-slate-400 hover:text-primary transition p-1" title="Parolni ko'rsatish">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full gold-gradient-btn py-3.5 rounded-xl font-bold text-sm tracking-wide mt-2">
+          Tizimga Kirish ➔
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-300 mb-1 font-semibold">To'liq Ism va Familiya</label>
+          <input type="text" id="regFullName" required placeholder="Masalan: Sardor Aliyev" class="w-full bg-slate-900/90 border border-slate-700 focus:border-primary rounded-xl px-4 py-3 text-slate-100 text-sm focus:outline-none transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-300 mb-1 font-semibold">Yangi Login</label>
+          <input type="text" id="regUsername" required autocomplete="username" placeholder="Login tanlang" class="w-full bg-slate-900/90 border border-slate-700 focus:border-primary rounded-xl px-4 py-3 text-slate-100 text-sm focus:outline-none transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-300 mb-1 font-semibold">Parol</label>
+          <div class="relative flex items-center">
+            <input type="password" id="regPassword" required autocomplete="new-password" placeholder="Kamida 4 ta belgi" class="w-full bg-slate-900/90 border border-slate-700 focus:border-primary rounded-xl px-4 py-3 text-slate-100 text-sm focus:outline-none pr-12 transition">
+            <button type="button" onclick="togglePasswordView('regPassword', this)" class="absolute right-3.5 text-slate-400 hover:text-primary transition p-1" title="Parolni ko'rsatish">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full gold-gradient-btn py-3.5 rounded-xl font-bold text-sm tracking-wide mt-2">
+          Ro'yxatdan o'tish (+100 ball bonus) ➔
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. ASOSIY DASHBOARD INTERFEYSI              -->
+  <!-- ========================================== -->
+  <div id="appView" class="hidden min-h-screen flex flex-col pb-28">
+
+    <!-- Top Sticky Header -->
+    <header class="bg-cardBg/90 backdrop-blur-xl border-b border-slate-800 px-4 md:px-8 py-3.5 flex justify-between items-center sticky top-0 z-40 shadow-xl">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchNavTab('books')">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-primary flex items-center justify-center font-bold text-primaryLight text-base shadow-md shadow-primary/20">
+          A
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold font-serif text-accentCream">Abdulboriy.uz</span>
+            <span id="userRoleBadge" class="bg-primary/20 border border-primary/40 text-primaryLight text-[11px] px-2 py-0.5 rounded-full font-bold">Menejer</span>
+          </div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400 block font-semibold">500,000 Kitoblar & SaaS Portali</span>
+        </div>
+      </div>
+
+      <!-- Header Right: Live Balance & Logout -->
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 bg-gradient-to-r from-amber-950/40 to-slate-900 border border-primary/40 px-3.5 py-1.5 rounded-full shadow-inner">
+          <span class="text-sm">🪙</span>
+          <span id="headerPointsDisplay" class="font-bold text-primaryLight text-sm">100</span>
+          <span class="text-xs text-slate-400">ball</span>
+        </div>
+
+        <div class="hidden sm:flex items-center space-x-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
+          <div id="userAvatarIcon" class="w-6 h-6 rounded-full bg-primary text-black font-bold text-xs flex items-center justify-center">A</div>
+          <span id="userNameDisplay" class="text-xs font-semibold text-slate-200">Abdulboriy</span>
+        </div>
+
+        <button onclick="handleLogout()" class="text-xs bg-red-950/30 hover:bg-red-900/60 text-red-400 border border-red-800/40 px-3 py-1.5 rounded-lg font-semibold transition">
+          Chiqish
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 px-4 md:px-8 py-2.5 flex space-x-2 overflow-x-auto scrollbar-none">
+      <button data-tab="books" onclick="switchNavTab('books')" class="nav-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap bg-primary text-black shadow-md">
+        📚 500,000 Kitoblar
+      </button>
+      <button data-tab="prayer" onclick="switchNavTab('prayer')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900">
+        🕌 Farg'ona Namoz Vaqtlari
+      </button>
+      <button data-tab="todo" onclick="switchNavTab('todo')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900">
+        📝 To-Do & Kundalik
+      </button>
+      <button data-tab="ai" onclick="switchNavTab('ai')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900">
+        🤖 Suxbat AI
+      </button>
+      <button data-tab="shop" onclick="switchNavTab('shop')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900">
+        🎁 Do'kon
+      </button>
+      <!-- Manager Panel Tab: Strictly visible only for Admin (Abdulboriy) -->
+      <button id="adminTabNav" data-tab="admin" onclick="switchNavTab('admin')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap border border-dashed border-primary text-primaryLight hover:bg-primary/20 hidden">
+        ⚙️ Menejer Paneli
+      </button>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+
+      <!-- ============================================== -->
+      <!-- TAB 1: 500,000 KITOBLAR KATALOGI VA QIDIRUV    -->
+      <!-- ============================================== -->
+      <div id="tabView-books" class="tab-pane space-y-6">
+        <!-- Search & Category Filters -->
+        <div class="glass-card p-5 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+              <h2 class="text-xl font-bold font-serif text-accentCream">500,000 ta Kitoblar Bazasi</h2>
+              <p class="text-xs text-slate-400">PDF o'quvchi, ravon audio sintez (TTS / MP3) va 10 talik testlar</p>
+            </div>
+            <div class="w-full sm:w-80">
+              <input type="text" id="bookSearchInput" oninput="handleBookSearch()" placeholder="Kitob nomi yoki muallifini qidirish..." class="w-full bg-slate-900 border border-slate-700 focus:border-primary rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none transition">
+            </div>
+          </div>
+
+          <!-- Category Chips -->
+          <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-none" id="categoryChips">
+            <!-- Dynamic Category Pills -->
+          </div>
+        </div>
+
+        <!-- Catalog Status -->
+        <div class="flex justify-between items-center text-xs text-slate-400 bg-slate-900/60 border border-slate-800 px-4 py-2.5 rounded-xl">
+          <div>Ko'rsatilmoqda: <span id="currentPaginationRange" class="font-bold text-primaryLight">1 - 20</span> (Jami: 500,000 kitob)</div>
+          <div class="flex items-center gap-2">
+            <span>Sahifaga sakrash:</span>
+            <input type="number" id="jumpPageInput" min="1" max="25000" value="1" class="w-16 bg-slate-950 border border-slate-700 text-center rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-primary">
+            <button onclick="jumpToPage()" class="gold-gradient-btn px-2.5 py-1 rounded text-xs">O'tish</button>
+          </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div id="booksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Virtual Pagination Bar -->
+        <div class="glass-card p-4 flex flex-wrap justify-between items-center gap-4">
+          <button onclick="changePage(-1)" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl text-xs font-semibold text-slate-200 transition">
+            ◀ Oldingi Sahifa
+          </button>
+          <span id="pageIndicator" class="text-xs font-bold text-accentCream">Sahifa: 1 / 25,000</span>
+          <button onclick="changePage(1)" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl text-xs font-semibold text-slate-200 transition">
+            Keyingi Sahifa ▶
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 2: FARG'ONA NAMOZ VAQTLARI & AZON         -->
+      <!-- ============================================== -->
+      <div id="tabView-prayer" class="tab-pane hidden space-y-6">
+        <div class="glass-card p-6 text-center relative overflow-hidden">
+          <div class="text-xs uppercase tracking-widest text-primaryLight font-bold mb-1">O'zbekiston, Farg'ona Viloyati</div>
+          <h2 id="liveClockDisplay" class="text-4xl md:text-5xl font-bold font-serif text-accentCream tracking-wide my-2">12:00:00</h2>
+          <p id="liveDateDisplay" class="text-xs text-slate-400 mb-4">Payshanba, 5-Noyabr</p>
+          
+          <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 px-5 py-2 rounded-full text-xs text-primaryLight font-semibold">
+            <span>⏳</span>
+            <span id="prayerCountdownText">Navbatdagi namoz hisoblanmoqda...</span>
+          </div>
+
+          <div class="mt-4 flex justify-center items-center gap-3">
+            <label class="text-xs text-slate-300 flex items-center gap-2 cursor-pointer bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
+              <input type="checkbox" id="azanToggle" checked class="accent-primary w-4 h-4">
+              <span>🔊 Ovozli Azon bildirishnomasi</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 5 Vaqt Namoz Jadvali -->
+        <div id="prayerScheduleGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Kun Hikmati -->
+        <div class="glass-card p-5 border-l-4 border-l-primary flex items-start gap-4">
+          <span class="text-2xl">📖</span>
+          <div>
+            <h4 class="text-sm font-bold text-accentCream font-serif mb-1">Kun Hikmati</h4>
+            <p class="text-xs text-slate-300 italic leading-relaxed">
+              "Ilm olish har bir musulmon erkak va ayolga farzdir. Kim ilm yo'liga qadam qo'ysa, Alloh unga jannat yo'lini oson qiladi." (Hadisi Sharif)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: TO-DO KUNLIK VAZIFALAR & KUNDALIK       -->
+      <!-- ============================================== -->
+      <div id="tabView-todo" class="tab-pane hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- To-Do Panel -->
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-base font-bold font-serif text-accentCream">✅ Kunlik Vazifalar (To-Do)</h3>
+              <span id="todoCount" class="text-xs text-slate-400">0 ta vazifa</span>
+            </div>
+            
+            <form onsubmit="handleAddTask(event)" class="flex gap-2 mb-4">
+              <input type="text" id="newTaskInput" placeholder="Yangi vazifa yozing..." required class="flex-1 bg-slate-900 border border-slate-700 focus:border-primary px-3 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+              <button type="submit" class="gold-gradient-btn px-4 py-2.5 rounded-xl text-xs font-bold">+</button>
+            </form>
+
+            <ul id="tasksList" class="space-y-2 max-h-80 overflow-y-auto pr-1">
+              <!-- Task items -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- Kundalik (Bugungi Kun) -->
+        <div class="glass-card p-6">
+          <h3 class="text-base font-bold font-serif text-accentCream mb-4">📔 "Bugungi Kun" Kundaligi</h3>
+          
+          <div class="space-y-3 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1 font-semibold">Kun Kayfiyati</label>
+              <select id="diaryMoodSelect" class="w-full bg-slate-900 border border-slate-700 focus:border-primary rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+                <option value="🌟 A'lo va sermahsul">🌟 A'lo va sermahsul</option>
+                <option value="😊 Xursand va xotirjam">😊 Xursand va xotirjam</option>
+                <option value="📖 Mutolaa bilan band">📖 Mutolaa bilan band</option>
+                <option value="☕ Sokinquvvat">☕ Sokinquvvat</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1 font-semibold">Bugungi kun xulosalari va minnatdorchilik</label>
+              <textarea id="diaryTextInput" rows="4" placeholder="Bugun qaysi kitobni o'qidingiz? Qanday yangi bilimlarga ega bo'ldingiz?" class="w-full bg-slate-900 border border-slate-700 focus:border-primary rounded-xl p-3 text-xs text-white focus:outline-none"></textarea>
+            </div>
+
+            <button onclick="handleSaveDiary()" class="w-full gold-gradient-btn py-2.5 rounded-xl text-xs font-bold">
+              Kundalikni Saqlash
+            </button>
+          </div>
+
+          <div id="diaryHistory" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            <!-- Saved entries -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 4: SUXBAT AI ASSISTENTI                    -->
+      <!-- ============================================== -->
+      <div id="tabView-ai" class="tab-pane hidden">
+        <div class="glass-card max-w-4xl mx-auto h-[600px] flex flex-col overflow-hidden">
+          <div class="bg-slate-900/90 border-b border-slate-800 p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-primaryLight text-sm font-bold">AI</div>
+              <div>
+                <h3 class="text-sm font-bold text-accentCream">Suxbat AI — Abdulboriy Asistenti</h3>
+                <span class="text-[10px] text-emerald-400 flex items-center gap-1">● Online intellektual yordamchi</span>
+              </div>
+            </div>
+            <button onclick="clearChatHistory()" class="text-xs text-slate-400 hover:text-slate-200">Tozalash</button>
+          </div>
+
+          <!-- Chat Messages Area -->
+          <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-950/40">
+            <div class="bg-slate-900 border border-primary/30 text-slate-200 p-3.5 rounded-2xl rounded-tl-none max-w-xl text-xs leading-relaxed">
+              Assalomu alaykum! Men <strong>Abdulboriy.uz</strong> portalining aqlli yordamchisiman. 500,000 ta kitoblar tahlili, Alkimyogar falsafasi, shaxsiy rivojlanish, namoz vaqtlari yoki adabiy testlar bo'yicha savollaringiz bo'lsa marhamat, so'rashingiz mumkin!
+            </div>
+          </div>
+
+          <!-- Quick Question Prompts -->
+          <div class="bg-slate-900/70 border-t border-slate-800/80 px-3 py-2 flex gap-2 overflow-x-auto scrollbar-none">
+            <button onclick="sendQuickPrompt('Alkimyogar asarining asosiy g\'oyasi nima?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] px-3 py-1.5 rounded-lg whitespace-nowrap transition">📖 Alkimyogar g'oyasi</button>
+            <button onclick="sendQuickPrompt('Qanday qilib kitob o\'qish odatini shakllantirish mumkin?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] px-3 py-1.5 rounded-lg whitespace-nowrap transition">⚡ Odat shakllantirish</button>
+            <button onclick="sendQuickPrompt('Namoz inson ruhiyatiga qanday ta\'sir qiladi?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] px-3 py-1.5 rounded-lg whitespace-nowrap transition">🕌 Namoz va ruhiyat</button>
+          </div>
+
+          <!-- Chat Input -->
+          <form onsubmit="handleSendChat(event)" class="bg-slate-900 border-t border-slate-800 p-3 flex gap-2">
+            <input type="text" id="chatInput" placeholder="Savolingizni yozing..." required autocomplete="off" class="flex-1 bg-slate-950 border border-slate-700 focus:border-primary px-4 py-2.5 rounded-xl text-xs text-white focus:outline-none">
+            <button type="submit" class="gold-gradient-btn px-5 py-2.5 rounded-xl text-xs font-bold">Yuborish</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 5: SOVG'ALAR DO'KONI                       -->
+      <!-- ============================================== -->
+      <div id="tabView-shop" class="tab-pane hidden space-y-6">
+        <div class="glass-card p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <h2 class="text-xl font-bold font-serif text-accentCream">Sovg'alar Do'koni</h2>
+            <p class="text-xs text-slate-400">Kitob testlarida to'plagan ballaringizga noyob stikerlar va yutuqlarni sotib oling</p>
+          </div>
+          <div class="bg-slate-900 border border-primary px-4 py-2 rounded-xl flex items-center gap-2">
+            <span class="text-xs text-slate-300">Mavjud ballar:</span>
+            <span id="shopBalanceText" class="font-bold text-primaryLight text-base">100</span>
+            <span class="text-xs text-primaryLight font-bold">ball</span>
+          </div>
+        </div>
+
+        <div id="shopGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Dynamic shop items -->
+        </div>
+
+        <!-- Inventar -->
+        <div class="glass-card p-6">
+          <h3 class="text-sm font-bold font-serif text-accentCream mb-3">🎁 Mening Xarid Qilingan Sovg'alarim</h3>
+          <div id="inventoryContainer" class="flex flex-wrap gap-2 text-xs text-slate-400">
+            Hozircha xaridlar yo'q. Kitob testlarini topshirib ball to'plang!
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 6: MENEJER (ADMIN) PANELI                  -->
+      <!-- (Strictly restricted to Admin: Abdulboriy)     -->
+      <!-- ============================================== -->
+      <div id="tabView-admin" class="tab-pane hidden space-y-6">
+        <div class="glass-card p-6">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+              <h2 class="text-xl font-bold font-serif text-accentCream">Menejer Boshqaruv Markazi</h2>
+              <p class="text-xs text-slate-400">Foydalanuvchilarni nazorat qilish, haydash (bloklash), ballar tayinlash va kitoblar boshqaruvi</p>
+            </div>
+            <button onclick="openAddUserModal()" class="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold">
+              + Yangi Foydalanuvchi
+            </button>
+          </div>
+
+          <!-- Admin Quick Stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
+              <div class="text-2xl font-bold text-primaryLight font-serif">500,000</div>
+              <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Jami Kitoblar</div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
+              <div id="adminTotalUsersCount" class="text-2xl font-bold text-accentCream font-serif">4</div>
+              <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Foydalanuvchilar</div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
+              <div id="adminActiveUsersCount" class="text-2xl font-bold text-emerald-400 font-serif">4</div>
+              <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Faol A'zolar</div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
+              <div id="adminBlockedUsersCount" class="text-2xl font-bold text-red-400 font-serif">0</div>
+              <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Haydalganlar</div>
+            </div>
+          </div>
+
+          <!-- Foydalanuvchilar Jadvali -->
+          <h3 class="text-sm font-bold text-slate-200 mb-3">Foydalanuvchilar Ro'yxati & Haydash (Block/Delete)</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="p-3">F.I.O</th>
+                  <th class="p-3">Login</th>
+                  <th class="p-3">Roli</th>
+                  <th class="p-3">Ballar</th>
+                  <th class="p-3">Holat</th>
+                  <th class="p-3 text-right">Amallar</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTable" class="divide-y divide-slate-800/60 bg-slate-950/40">
+                <!-- User rows rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Yangi Kitob Qo'shish Bo'limi -->
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <h3 class="text-sm font-bold text-accentCream mb-3">Yangi Kitob va 10 talik Test Qo'shish</h3>
+            <form onsubmit="handleAdminAddBook(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" id="adminNewTitle" placeholder="Kitob nomi" required class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+              <input type="text" id="adminNewAuthor" placeholder="Muallif ismi" required class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+              <select id="adminNewCategory" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+                <option value="Jahon adabiyoti">Jahon adabiyoti</option>
+                <option value="O'zbek mumtoz">O'zbek mumtoz</option>
+                <option value="Diniy-ma'rifiy">Diniy-ma'rifiy</option>
+                <option value="Biznes va Moliya">Biznes va Moliya</option>
+                <option value="Psixologiya">Psixologiya</option>
+                <option value="IT & SaaS">IT & SaaS</option>
+              </select>
+              <input type="number" id="adminNewPages" placeholder="Sahifalar soni" value="250" class="bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+              <textarea id="adminNewText" rows="3" placeholder="Kitob mazmuni va TTS ovozli o'qish uchun matn..." class="sm:col-span-2 bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary"></textarea>
+              <button type="submit" class="sm:col-span-2 gold-gradient-btn py-2.5 rounded-xl text-xs font-bold">
+                Kitobni Bazaga Qo'shish
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ============================================== -->
+    <!-- 3. ZAMONAVIY BOTTOM AUDIO PLEYER (TTS & MP3)   -->
+    <!-- ============================================== -->
+    <div id="globalAudioPlayer" class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-2xl border-t border-primary/40 px-4 md:px-8 py-3 shadow-2xl">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+        <!-- Kitob info -->
+        <div class="flex items-center space-x-3 w-full md:w-auto">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-950 to-slate-900 border border-primary flex items-center justify-center text-primary text-base">
+            🎧
+          </div>
+          <div class="flex-1 min-w-0">
+            <h4 id="audioPlayerTitle" class="text-xs md:text-sm font-bold text-accentCream truncate">Kitob tanlanmagan</h4>
+            <p id="audioPlayerSubtitle" class="text-[11px] text-slate-400 truncate">Audio tinglash uchun kitob kartochkasidagi tugmani bosing</p>
+          </div>
+        </div>
+
+        <!-- Shkala va controls -->
+        <div class="flex-1 max-w-xl w-full flex flex-col items-center gap-1.5">
+          <div class="w-full flex items-center space-x-2">
+            <span id="audioCurrentTime" class="text-[10px] text-slate-400 font-mono w-9 text-right">00:00</span>
+            <div id="audioProgressBarContainer" onclick="handleSeekAudio(event)" class="flex-1 bg-slate-950 h-2 rounded-full cursor-pointer relative overflow-hidden border border-slate-800">
+              <div id="audioProgressBarFill" class="bg-gradient-to-r from-primaryLight to-primary h-full w-0 transition-all duration-150"></div>
+            </div>
+            <span id="audioTotalDuration" class="text-[10px] text-slate-400 font-mono w-9">00:00</span>
+          </div>
+
+          <!-- Jumla ko'rsatkichi (TTS highlight) -->
+          <div id="ttsCurrentSentenceBox" class="text-[11px] text-slate-300 italic truncate max-w-md text-center">
+            Jumla: Kutubxonadan sevimli kitobingizni tanlang...
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex items-center space-x-2">
+          <button id="audioPlayPauseBtn" onclick="toggleAudioPlayback()" class="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold">
+            ▶ O'ynash
+          </button>
+          <button onclick="stopAudioPlayback()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl text-xs border border-slate-700">
+            ⏹ To'xtatish
+          </button>
+        </div>
+      </div>
+      <!-- Hidden Audio Element -->
+      <audio id="coreAudioElement" preload="metadata"></audio>
+    </div>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 4. MODALLAR (PDF, QUIZ, ADD USER)              -->
+  <!-- ============================================== -->
+
+  <!-- PDF Modal -->
+  <div id="pdfModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/60">
+        <div>
+          <h3 id="pdfModalTitle" class="text-base font-bold font-serif text-accentCream">PDF O'quvchi</h3>
+          <span class="text-xs text-primaryLight font-semibold">Elektron mutolaa formati</span>
+        </div>
+        <button onclick="closeModal('pdfModal')" class="text-slate-400 hover:text-white text-sm">✕</button>
+      </div>
+
+      <div class="p-4 flex-1 overflow-y-auto space-y-4">
+        <div class="flex justify-between items-center bg-slate-900 px-3 py-2 rounded-xl text-xs border border-slate-800">
+          <button onclick="changePdfPage(-1)" class="px-2 py-1 bg-slate-800 rounded">◀ Oldingi</button>
+          <span id="pdfPageLabel" class="font-bold">Sahifa: 1 / 18</span>
+          <button onclick="changePdfPage(1)" class="px-2 py-1 bg-slate-800 rounded">Keyingi ▶</button>
+        </div>
+
+        <div id="pdfContentSheet" class="bg-slate-950 border border-slate-800 p-6 rounded-xl font-serif text-slate-200 text-sm leading-relaxed min-h-[300px]">
+          <!-- Book page content -->
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-800 flex justify-between items-center bg-slate-900/60">
+        <button onclick="downloadPdfFile()" class="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold">
+          📥 PDF Yuklab olish
+        </button>
+        <button onclick="closeModal('pdfModal')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs">
+          Yopish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 talik Quiz Test Modali -->
+  <div id="quizModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-card max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/80">
+        <div>
+          <h3 id="quizModalTitle" class="text-base font-bold font-serif text-accentCream">Kitob Bo'yicha 10 Talik Test</h3>
+          <span class="text-xs text-primaryLight font-semibold">Har bir to'g'ri javob uchun ball + yakuniy +100 ball mukofot!</span>
+        </div>
+        <button onclick="closeModal('quizModal')" class="text-slate-400 hover:text-white text-sm">✕</button>
+      </div>
+
+      <div id="quizQuestionsContainer" class="p-4 flex-1 overflow-y-auto space-y-4">
+        <!-- 10 questions rendered dynamically -->
+      </div>
+
+      <div class="p-4 border-t border-slate-800 flex justify-end space-x-3 bg-slate-900/80">
+        <button onclick="closeModal('quizModal')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs">Bekor qilish</button>
+        <button onclick="submitQuizAnswers()" class="gold-gradient-btn px-5 py-2 rounded-xl text-xs font-bold">
+          Testni Yakunlash ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Add User Modal -->
+  <div id="addUserModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-base font-bold font-serif text-accentCream">Yangi Foydalanuvchi Qo'shish</h3>
+        <button onclick="closeModal('addUserModal')" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <form onsubmit="handleCreateUser(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">To'liq F.I.O</label>
+          <input type="text" id="adminUserFio" required class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Login</label>
+          <input type="text" id="adminUserLogin" required class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Parol</label>
+          <input type="password" id="adminUserPassword" required class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Boshlang'ich Ball</label>
+          <input type="number" id="adminUserPoints" value="100" class="w-full bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs text-white focus:outline-none focus:border-primary">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('addUserModal')" class="bg-slate-800 px-4 py-2 rounded-xl text-xs text-slate-300">Bekor qilish</button>
+          <button type="submit" class="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold">Saqlash</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 5. TO'LIQ ISHCHI JAVASCRIPT LOGIKASI          -->
+  <!-- ============================================== -->
+  <script>
+    // --- FOYDALANUVCHILAR RO'YXATI VA BAZASI ---
+    const INITIAL_USERS = [
+      { id: "usr_admin", name: "Abdulboriy Saidaxmedov", username: "Abdulboriy", password: "2014", role: "admin", points: 99999, blocked: false },
+      { id: "usr_ali", name: "Ali Valiyev", username: "ali_01", password: "ali123", role: "user", points: 11200, blocked: false },
+      { id: "usr_fotima", name: "Fotima Zokirova", username: "fotima", password: "fotima2024", role: "user", points: 7500, blocked: false },
+      { id: "usr_hasan", name: "Hasan Normurodov", username: "hasan", password: "hasan123", role: "user", points: 3400, blocked: false }
+    ];
+
+    // Saralangan Boy Kitoblar Bazasining O'zagi
+    const MASTER_BOOKS = [
+      {
+        id: 1,
+        title: "Alkimyogar",
+        author: "Paulu Koelyo",
+        category: "Badiiy",
+        pages: 220,
+        year: 1988,
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        text: "Santyago Andalusiya dashtlarida qo'ylarini boqib yurgan yosh cho'pon edi. U bir necha bor bir xil tush ko'rdi: go'yo Misr ehromlari yonida uni beqiyos xazina kutmoqda. Qariya Melxisedek unga o'z taqdirini topish insonning yagona burchi ekanini uqtirdi. Cho'pon xavf-xatarlarga qaramay, dengizni kechib o'tib, Afrikaga yo'l oldi. Cho'l bag'rida u haqiqiy muhabbat — Fotimani va afsonaviy Alkimyogarni uchratdi. Har bir inson o'z yurak ovozini tinglashi kerak, chunki butun koinot sizning orzuingiz ushalishi uchun yordamga keladi.",
+        quiz: [
+          { q: "1. 'Alkimyogar' asarining bosh qahramoni kim?", opts: ["Santyago", "Melxisedek", "Fotima", "Ali"], correct: 0 },
+          { q: "2. Santyago qanday kasb egasi edi?", opts: ["Savdogar", "Cho'pon", "Olim", "Bog'bon"], correct: 1 },
+          { q: "3. Santyagoga 'O'z Taqdiring' haqida saboq bergan shoh kim edi?", opts: ["Salem shohi Melxisedek", "Misr Fir'avni", "Al-Xorazmiy", "Qirol Artur"], correct: 0 },
+          { q: "4. Santyago o'z xazinasini izlab qayerga bordi?", opts: ["Rim shahriga", "Misr ehromlariga", "Toshkentga", "Parijga"], correct: 1 },
+          { q: "5. Cho'ldagi vohada Santyago kimni sevib qoladi?", opts: ["Kumushni", "Fotimani", "Meri", "Ayshani"], correct: 1 },
+          { q: "6. Asarda qaysi toshlar Santyagoga qaror qabul qilishda yordam beradi?", opts: ["Urim va Tumim", "Yoqut va Zumrad", "Olmos va Marvarid", "Aqiq"], correct: 0 },
+          { q: "7. Alkimyogar qaysi moddani oltinga aylantirish sirlarini bilardi?", opts: ["Qo'rg'oshinni", "Tuproqni", "Yog'ochni", "Temirni"], correct: 0 },
+          { q: "8. Santyago pul ishlash uchun qayerda bir yil ishladi?", opts: ["Kitob do'konida", "Billur idishlar do'konida", "Meva bozorida", "Karvonsaroyda"], correct: 1 },
+          { q: "9. Asarning bosh g'oyasi nima?", opts: ["Faqat boylik to'plash", "Inson o'z taqdiri va orzulari sari qat'iyat bilan intilishi", "Cho'ldan qo'rqish", "Sayohat qilmaslik"], correct: 1 },
+          { q: "10. Santyago xazinani oxir-oqibat qayerdan topadi?", opts: ["Ehrom tepasidan", "Sayohatini boshlagan Andalusiyadagi cherkov xarobasidan", "Dengiz tubidan", "Bog'dan"], correct: 1 }
+        ]
+      },
+      {
+        id: 2,
+        title: "O'tkan kunlar",
+        author: "Abdulla Qodiriy",
+        category: "O'zbek mumtoz",
+        pages: 360,
+        year: 1926,
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        text: "1264-hijriy yil, dalv oyining o'n yettinchisi. Toshkentning eng nufuzli savdogarlaridan bo'lgan Yusufbek hojining o'g'li Otabek Marg'ilonga keldi. Karvonsaroyda u Mirzakarim qutidor bilan tanishadi. Qutidorning qizi Kumushbibini ko'rib, Otabekning qalbida beqiyos muhabbat uyg'onadi. Biroq Toshkentda ota-onasi uni Zaynabga uylantirishga majbur qilishadi. Ikki o't orasida qolgan Otabekning hayoti fojiali burilish yasaydi.",
+        quiz: [
+          { q: "1. 'O'tkan kunlar' romanining muallifi kim?", opts: ["Abdulla Qodiriy", "Cho'lpon", "Oybek", "G'afur G'ulom"], correct: 0 },
+          { q: "2. Otabekning otasi kim edi?", opts: ["Yusufbek hoji", "Mirzakarim qutidor", "Hasanali", "Homid"], correct: 0 },
+          { q: "3. Otabek Marg'ilonda kimga ko'ngil qo'ydi?", opts: ["Zaynabga", "Kumushbibiga", "Oysulton", "Xushro'y"], correct: 1 },
+          { q: "4. Otabekning sodiq xizmatkori kim edi?", opts: ["Hasanali", "Sodiq", "Usta Alim", "Homid"], correct: 0 },
+          { q: "5. Otabekning Toshkentdagi ikkinchi xotini kim bo'ldi?", opts: ["Kumush", "Zaynab", "Nodira", "Fotima"], correct: 1 },
+          { q: "6. Kumushbibining zaharlanishiga kim sababchi bo'ldi?", opts: ["Zaynab", "Homid", "Otabek", "Yusufbek hoji"], correct: 0 },
+          { q: "7. Asarda Otabekka dushmanlik qilgan fitnachi kim?", opts: ["Homid", "Mirzakarim", "Hasanali", "Usta Alim"], correct: 0 },
+          { q: "8. 'O'tkan kunlar' o'zbek adabiyotida qanday asar sanaladi?", opts: ["Ilk milliy roman", "Ilk doston", "Ertak", "Dramatik asar"], correct: 0 },
+          { q: "9. Kumushbibi qaysi shaharlik edi?", opts: ["Marg'ilon", "Toshkent", "Samarqand", "Xiva"], correct: 0 },
+          { q: "10. Otabek hayotining so'ngi qanday kechadi?", opts: ["Vatan himoyasida jangda halok bo'ladi", "Tinch umr kechiradi", "Savdogar bo'lib qoladi", "Chet elga ketadi"], correct: 0 }
+        ]
+      },
+      {
+        id: 3,
+        title: "Sariq devni minib",
+        author: "Xudoyberdi To'xtaboyev",
+        category: "Badiiy",
+        pages: 280,
+        year: 1968,
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        text: "Hoshimjon ismli dangasa bola bir kuni sehrli qalpoqcha topib oladi. Qalpoqchani kiygan odam ko'rinmas bo'lib qolardi. Hoshimjon bu bilan darslarni tayyorlamay, hamma fandan besh olishni, keyin esa professor, agronom va tergovchi bo'lishni xohlaydi. Biroq ilm va mehnatsiz erishilgan obro' uzoqqa bormasligini u o'z boshidan kechirgan kulgili va ibratli sarguzashtlar orqali tushunib yetadi.",
+        quiz: [
+          { q: "1. 'Sariq devni minib' asarining qahramoni kim?", opts: ["Hoshimjon", "Otabek", "G'ani", "Anvar"], correct: 0 },
+          { q: "2. Hoshimjon nimani topib oladi?", opts: ["Sehrli qalpoqchani", "Tilla tanga", "Sehrli tayoqcha", "Uchuvchi gilam"], correct: 0 },
+          { q: "3. Sehrli qalpoqchaning xususiyati nima edi?", opts: ["Kiyganni ko'rinmas qilardi", "Uchishga yordam berardi", "Ovqat tayyorlardi", "Kiyim tikardi"], correct: 0 },
+          { q: "4. Hoshimjon dastlab qanday bola edi?", opts: ["Dangasa va dars qilishni yoqtirmas", "A'lochi", "Kitobxon", "Kutubxonachi"], correct: 0 },
+          { q: "5. Hoshimjon o'zini kim deb tasavvur qildi?", opts: ["Professor Hoshimjon Ro'ziyev", "Qirol", "Vazir", "Uchuvchi"], correct: 0 },
+          { q: "6. Hoshimjonga qaysi narsa saboq bo'ldi?", opts: ["Ilmsiz va mehnatsiz hech narsaga erishib bo'lmasligi", "Sehrli narsalar doimiy ekanligi", "Dars qilmaslik yaxshiligi", "Uxlash"], correct: 0 },
+          { q: "7. Muallif Xudoyberdi To'xtaboyev qaysi janr ustasi?", opts: ["Bolalar adabiyoti", "Detektiv", "Tragediya", "Ilmiy maqolalar"], correct: 0 },
+          { q: "8. Hoshimjon qayerga qochib ketadi?", opts: ["Shaharga va dashtga", "Moskvaga", "London", "Dengizga"], correct: 0 },
+          { q: "9. Sariq dev aslida nimaning ramzi edi?", opts: ["Dangasalik va yengiltaklikning", "Haqiqiy devning", "Mashinaning", "Qalpoqning"], correct: 0 },
+          { q: "10. Asarning xulosasi nima?", opts: ["Haqiqiy mo'jiza bu — halol mehnat va bilim", "Sehr kutish kerak", "Dangasalik foydali", "Maktabga bormaslik"], correct: 0 }
+        ]
+      },
+      {
+        id: 4,
+        title: "Atom Odatlari",
+        author: "Jeyms Klir",
+        category: "Psixologiya",
+        pages: 310,
+        year: 2018,
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+        text: "Odatlar shaxsiy rivojlanishning murakkab foizlaridir. Bir kunda atigi 1 foizga yaxshiroq bo'lish dastlab sezilmasligi mumkin, ammo bir yildan so'ng siz 37 barobar kuchliroq bo'lasiz. Odatlarni shakllantirish to'rt bosqichdan iborat: Ishora, Istak, Javob va Mukofot. Yaxshi odatlarni oson va ko'zga ko'rinarli qiling, yomonlarini esa qiyinlashtiring.",
+        quiz: [
+          { q: "1. 'Atom odatlari' kitobining muallifi kim?", opts: ["Jeyms Klir", "Brayan Treysi", "Robin Sharma", "Stiven Kovi"], correct: 0 },
+          { q: "2. Har kuni 1% yaxshilanish bir yilda necha barobar o'sish beradi?", opts: ["2 barobar", "10 barobar", "37 barobar", "5 barobar"], correct: 2 },
+          { q: "3. Odat shakllanishining birinchi bosqichi nima?", opts: ["Mukofot", "Ishora (Cue)", "Javob", "Shubha"], correct: 1 },
+          { q: "4. Klir fikricha natijaga erishish uchun eng muhimi nima?", opts: ["Faqat orzu qilish", "Tizimlar yaratish (Systems)", "Boshqalarni tanqid qilish", "Ko'p uxlash"], correct: 1 },
+          { q: "5. '2 daqiqa qoidasi' nima uchun xizmat qiladi?", opts: ["Yangi odatni boshlashni osonlashtirish uchun", "Uxlash uchun", "Ovqatlanish uchun", "Kitob sotib olish uchun"], correct: 0 },
+          { q: "6. Yomon odatlarni yo'qotish uchun nima qilish kerak?", opts: ["Ularni ko'zdan yiroq va qiyin qilish", "Har kuni takrorlash", "Do'stlarga aytish", "Unutish"], correct: 0 },
+          { q: "7. Qaysi tushuncha odatlarni kuchli mustahkamlaydi?", opts: ["O'zlikni o'zgartirish (Identity-based)", "Majburlash", "Jazo", "Omad kutish"], correct: 0 },
+          { q: "8. Odatlar to'plami (Habit stacking) nima?", opts: ["Yangi odatni mavjud odatga bog'lash", "Hamma ishni birdan qilish", "Vazifalarni tashlab ketish", "Uxlamaslik"], correct: 0 },
+          { q: "9. Odatlarning uzoq muddatli ta'siri qanday hisoblanadi?", opts: ["Murakkab foiz (Compound effect)", "Tasodif", "Oddiy yig'indi", "Omad"], correct: 0 },
+          { q: "10. Ushbu kitob insonlarga nima beradi?", opts: ["Kundalik intizom va samaradorlik metodologiyasi", "Ertaknamo xayollar", "Texnika bilimlari", "Tibbiy muolaja"], correct: 0 }
+        ]
+      },
+      {
+        id: 5,
+        title: "Raqamli Minbar & SaaS",
+        author: "Abdulboriy",
+        category: "IT & SaaS",
+        pages: 200,
+        year: 2024,
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+        text: "Zamonaviy dunyoda dasturiy ta'minot va raqamli kutubxonalar ilm-fan hamda ta'lim taraqqiyotining asosiy drayveridir. Abdulboriy.uz platformasi orqali har bir foydalanuvchi bilim oladi, o'z intizomini oshiradi va yuksak marralarga erishadi.",
+        quiz: [
+          { q: "1. Ushbu kitobning muallifi kim?", opts: ["Abdulboriy", "Stiv Jobs", "Bill Geyts", "Ilon Mask"], correct: 0 },
+          { q: "2. SaaS nimani anglatadi?", opts: ["Software as a Service (Xizmat sifatida dastur)", "Qattiq disk", "Operatsion tizim", "Server xonasi"], correct: 0 },
+          { q: "3. Platformaning asosiy maqsadi nima?", opts: ["Ilm olish va shaxsiy rivojlanishni osonlashtirish", "Faqat vaqt o'tkazish", "Savdo qilish", "O'yin o'ynash"], correct: 0 }
+        ]
+      }
+    ];
+
+    // Sovg'alar Do'koni Elementlari (Gul stikeri: 11 000 ball va boshqalar)
+    const STORE_ITEMS = [
+      { id: "rose_sticker", title: "Gul Stikeri", price: 11000, icon: "🌹", desc: "Mutolaa fidoyilari uchun nafis gul nishoni" },
+      { id: "gold_bookmark", title: "Oltin Xatcho'p", price: 5000, icon: "🔖", desc: "Sevimli kitoblaringizni belgilab borish uchun" },
+      { id: "vip_crown", title: "VIP Kitobxon Toji", price: 18000, icon: "👑", desc: "Platformadagi eng faol a'zo ramzi" },
+      { id: "honor_diploma", title: "Abdulboriy.uz Faxriy Diplomi", price: 25000, icon: "📜", desc: "500,000 kitoblar akademiyasi maxsus diplomi" },
+      { id: "coffee_gift", title: "Mutolaa & Qahva", price: 15000, icon: "☕", desc: "Kitobxon do'stlarga yuborish uchun quvvatbaxsh sovg'a" },
+      { id: "diamond_badge", title: "Brilliant Alkimyogar", price: 50000, icon: "💎", desc: "Eng yuksak e'tirof va cheksiz ehtirom belgisi" }
+    ];
+
+    const BOOK_CATEGORIES = ["Barchasi", "Badiiy", "O'zbek mumtoz", "Psixologiya", "Diniy-ma'rifiy", "Biznes va Moliya", "IT & SaaS"];
+
+    // GLOBAL STATUS
+    let state = {
+      users: [],
+      currentUser: null,
+      activeNavTab: 'books',
+      catalog: {
+        total: 500000,
+        pageSize: 20,
+        page: 1,
+        selectedCategory: "Barchasi",
+        query: ""
+      },
+      audio: {
+        activeBook: null,
+        isPlaying: false,
+        isTtsMode: false,
+        sentences: [],
+        currentSentenceIdx: 0,
+        timer: null
+      },
+      pdf: {
+        activeBook: null,
+        currentPage: 1,
+        totalPages: 18
+      },
+      quiz: {
+        activeBook: null,
+        selectedAnswers: {}
+      },
+      tasks: [],
+      diaries: [],
+      inventory: []
+    };
+
+    // --- INITIALIZATION ---
+    function init() {
+      // Load users
+      const storedUsers = localStorage.getItem('abdulboriy_uz_users');
+      state.users = storedUsers ? JSON.parse(storedUsers) : [...INITIAL_USERS];
+      saveUsers();
+
+      // Check active session
+      const storedSession = localStorage.getItem('abdulboriy_uz_session');
+      if (storedSession) {
+        try {
+          const s = JSON.parse(storedSession);
+          const matched = state.users.find(u => u.username.toLowerCase() === s.username.toLowerCase());
+          if (matched && !matched.blocked) {
+            state.currentUser = matched;
+          } else {
+            localStorage.removeItem('abdulboriy_uz_session');
+          }
+        } catch(e) {}
+      }
+
+      // Load tasks, diaries, inventory
+      const storedTasks = localStorage.getItem('abdulboriy_uz_tasks');
+      state.tasks = storedTasks ? JSON.parse(storedTasks) : [
+        { id: 1, text: "Alkimyogar asarining 3-bobini o'qish", done: true },
+        { id: 2, text: "Farg'ona vaqti bilan Shom namozini ado etish", done: false },
+        { id: 3, text: "10 talik test topshirib +100 ball olish", done: false }
+      ];
+
+      const storedDiaries = localStorage.getItem('abdulboriy_uz_diaries');
+      state.diaries = storedDiaries ? JSON.parse(storedDiaries) : [
+        { id: 1, date: "2026-11-05", mood: "🌟 A'lo va sermahsul", text: "Bugun 500,000 kitoblar katalogidan qiziqarli boblarni o'qib chiqdim." }
+      ];
+
+      const storedInv = localStorage.getItem('abdulboriy_uz_inventory');
+      state.inventory = storedInv ? JSON.parse(storedInv) : [];
+
+      renderUI();
+      startPrayerClock();
+      setupAudioEvents();
+    }
+
+    function saveUsers() {
+      localStorage.setItem('abdulboriy_uz_users', JSON.stringify(state.users));
+    }
+    function saveTasks() {
+      localStorage.setItem('abdulboriy_uz_tasks', JSON.stringify(state.tasks));
+    }
+    function saveDiaries() {
+      localStorage.setItem('abdulboriy_uz_diaries', JSON.stringify(state.diaries));
+    }
+    function saveInventory() {
+      localStorage.setItem('abdulboriy_uz_inventory', JSON.stringify(state.inventory));
+    }
+
+    // --- TOAST NOTIFICATION ---
+    function showToast(msg, icon = '✨') {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastIcon').innerText = icon;
+      document.getElementById('toastMessage').innerText = msg;
+      toast.classList.add('toast-show');
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+      }, 3000);
+    }
+
+    // --- AUTHENTICATION & STRICT ROLE ISOLATION ---
+    function switchAuthTab(mode) {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const tabLogin = document.getElementById('authTabLogin');
+      const tabRegister = document.getElementById('authTabRegister');
+
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-primary text-black transition";
+        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-primary text-black transition";
+      }
+    }
+
+    function togglePasswordView(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = `<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+      } else {
+        input.type = 'password';
+        btn.innerHTML = `<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const uVal = document.getElementById('loginUsername').value.trim();
+      const pVal = document.getElementById('loginPassword').value.trim();
+
+      const user = state.users.find(u => u.username.toLowerCase() === uVal.toLowerCase());
+
+      if (!user) {
+        alert("Xatolik: Foydalanuvchi topilmadi! Loginni tekshiring.");
+        return;
+      }
+
+      if (user.blocked) {
+        alert("DIQQAT: Sizning hisobingiz ma'muriyat tomonidan bloklangan (haydalgan)! Tizimga kirish qat'iyan taqiqlanadi.");
+        return;
+      }
+
+      if (user.password !== pVal) {
+        alert("Xatolik: Parol noto'g'ri kiritildi!");
+        return;
+      }
+
+      state.currentUser = user;
+      localStorage.setItem('abdulboriy_uz_session', JSON.stringify({ username: user.username }));
+      showToast(`Xush kelibsiz, ${user.name}!`, '🎉');
+      renderUI();
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('regFullName').value.trim();
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      if (state.users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+        alert("Bu login band! Boshqa login tanlang.");
+        return;
+      }
+
+      const newUser = {
+        id: "usr_" + Date.now(),
+        name: name,
+        username: username,
+        password: password,
+        role: "user",
+        points: 100, // +100 bonus
+        blocked: false
+      };
+
+      state.users.push(newUser);
+      saveUsers();
+      state.currentUser = newUser;
+      localStorage.setItem('abdulboriy_uz_session', JSON.stringify({ username: newUser.username }));
+      showToast("Muvaffaqiyatli ro'yxatdan o'tdingiz! +100 ball taqdim etildi.", '🎁');
+      renderUI();
+    }
+
+    function handleLogout() {
+      if (confirm("Rostdan ham tizimdan chiqmoqchimisiz?")) {
+        state.currentUser = null;
+        localStorage.removeItem('abdulboriy_uz_session');
+        stopAudioPlayback();
+        renderUI();
+        showToast("Tizimdan chiqildi.", '👋');
+      }
+    }
+
+    // --- UI RENDER & ROLE RESTRICTION ---
+    function renderUI() {
+      const loginView = document.getElementById('loginView');
+      const appView = document.getElementById('appView');
+
+      if (!state.currentUser) {
+        loginView.classList.remove('hidden');
+        appView.classList.add('hidden');
+        document.getElementById('loginForm').reset();
+        return;
+      }
+
+      loginView.classList.add('hidden');
+      appView.classList.remove('hidden');
+
+      // Update Header info
+      document.getElementById('userNameDisplay').innerText = state.currentUser.name;
+      document.getElementById('userAvatarIcon').innerText = state.currentUser.name.charAt(0).toUpperCase();
+      document.getElementById('userRoleBadge').innerText = state.currentUser.role === 'admin' ? 'Menejer (Admin)' : 'Foydalanuvchi';
+      document.getElementById('headerPointsDisplay').innerText = (state.currentUser.points || 0).toLocaleString();
+      document.getElementById('shopBalanceText').innerText = (state.currentUser.points || 0).toLocaleString();
+
+      // STRICT ADMIN SEPARATION
+      const adminTabNav = document.getElementById('adminTabNav');
+      if (state.currentUser.role === 'admin') {
+        adminTabNav.classList.remove('hidden');
+      } else {
+        adminTabNav.classList.add('hidden');
+        if (state.activeNavTab === 'admin') {
+          switchNavTab('books');
+          return;
+        }
+      }
+
+      renderCategories();
+      renderBooks();
+      renderPrayerGrid();
+      renderTasks();
+      renderDiaries();
+      renderShop();
+      if (state.currentUser.role === 'admin') {
+        renderAdmin();
+      }
+    }
+
+    function switchNavTab(tabId) {
+      if (tabId === 'admin' && (!state.currentUser || state.currentUser.role !== 'admin')) {
+        alert("Ruxsat yo'q! Bu bo'lim faqat Boshqaruvchi uchun.");
+        return;
+      }
+
+      state.activeNavTab = tabId;
+
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.className = "nav-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap bg-primary text-black shadow-md";
+        } else {
+          btn.className = "nav-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900";
+        }
+      });
+
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+      const activePane = document.getElementById('tabView-' + tabId);
+      if (activePane) activePane.classList.remove('hidden');
+
+      if (tabId === 'admin') renderAdmin();
+    }
+
+    // --- 500,000 VIRTUAL BOOKS ENGINE ---
+    function renderCategories() {
+      const container = document.getElementById('categoryChips');
+      container.innerHTML = BOOK_CATEGORIES.map(cat => {
+        const isSel = state.catalog.selectedCategory === cat;
+        return `
+          <button onclick="selectCategory('${cat}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${isSel ? 'bg-primary text-black' : 'bg-slate-900 border border-slate-700 text-slate-400 hover:text-white'}">
+            ${cat}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectCategory(cat) {
+      state.catalog.selectedCategory = cat;
+      state.catalog.page = 1;
+      renderCategories();
+      renderBooks();
+    }
+
+    function handleBookSearch() {
+      state.catalog.query = document.getElementById('bookSearchInput').value.trim();
+      state.catalog.page = 1;
+      renderBooks();
+    }
+
+    function getCatalogBooks(page, pageSize, category, query) {
+      let books = [];
+      const start = (page - 1) * pageSize;
+
+      for (let i = 0; i < pageSize; i++) {
+        const globalId = start + i + 1;
+        if (globalId > 500000) break;
+
+        // Use curated masterpieces for initial slots
+        if (globalId <= MASTER_BOOKS.length && !query) {
+          books.push(MASTER_BOOKS[globalId - 1]);
+          continue;
+        }
+
+        const catIdx = (globalId * 3) % (BOOK_CATEGORIES.length - 1) + 1;
+        const bCat = BOOK_CATEGORIES[catIdx];
+        const authors = ["Abdulla Qodiriy", "Paulu Koelyo", "Jeyms Klir", "Robert Kiyosaki", "Abdulboriy", "Xudoyberdi To'xtaboyev", "Oybek", "Erkin Vohidov"];
+        const bAuthor = authors[globalId % authors.length];
+        const title = `Kitob #${globalId}: Hikmatlar Xazinasi`;
+
+        const b = {
+          id: globalId,
+          title: title,
+          author: bAuthor,
+          category: bCat,
+          pages: 180 + (globalId % 300),
+          year: 1970 + (globalId % 55),
+          mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+          text: `${title} asari inson zakovati va ma'naviy tarbiyasining yuksak namunasidir. Muallif ${bAuthor} kitobxonga ilm va intizomning beqiyos foydalarini yetkazadi. Har bir sahifa qalbni nurlantiradi.`,
+          quiz: [
+            { q: `1. '${title}' asarining muallifi kim?`, opts: [bAuthor, "Noma'lum", "A. Qahhor", "G'. G'ulom"], correct: 0 },
+            { q: "2. Kitobning asosiy g'oyasi nima?", opts: ["Ilm va mehnat", "Dangasalik", "Kutish", "Hech narsa"], correct: 0 },
+            { q: "3. Ushbu asar qaysi toifaga kiradi?", opts: [bCat, "Ertak", "Lug'at", "Musiqa"], correct: 0 }
+          ]
+        };
+
+        if (category !== "Barchasi" && b.category !== category) continue;
+        if (query && !b.title.toLowerCase().includes(query.toLowerCase()) && !b.author.toLowerCase().includes(query.toLowerCase())) continue;
+
+        books.push(b);
+      }
+      return books;
+    }
+
+    function renderBooks() {
+      const { page, pageSize, selectedCategory, query } = state.catalog;
+      const list = getCatalogBooks(page, pageSize, selectedCategory, query);
+      const grid = document.getElementById('booksGrid');
+
+      const startIdx = (page - 1) * pageSize + 1;
+      const endIdx = startIdx + list.length - 1;
+      document.getElementById('currentPaginationRange').innerText = `${startIdx} - ${endIdx}`;
+      document.getElementById('pageIndicator').innerText = `Sahifa: ${page} / 25,000`;
+      document.getElementById('jumpPageInput').value = page;
+
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">Hech qanday kitob topilmadi.</div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(b => `
+        <div class="glass-card p-4 flex flex-col justify-between hover:border-primary/50 transition duration-200">
+          <div>
+            <div class="flex justify-between items-start gap-2 mb-2">
+              <span class="text-[10px] bg-slate-900 border border-primary/30 text-primaryLight px-2.5 py-0.5 rounded-full font-bold uppercase">${b.category}</span>
+              <span class="text-[11px] text-slate-400 font-semibold">📄 ${b.pages} bet</span>
+            </div>
+            <h4 class="font-bold text-sm text-accentCream font-serif line-clamp-1 mb-1">${b.title}</h4>
+            <p class="text-xs text-primaryLight font-medium mb-3">✍️ ${b.author}</p>
+            <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4">${b.text}</p>
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-slate-800/80">
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="openPdfModal(${b.id})" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs py-2 rounded-xl font-semibold transition">
+                📄 PDF Ko'rish
+              </button>
+              <button onclick="playBookAudio(${b.id})" class="gold-gradient-btn text-xs py-2 rounded-xl font-bold transition flex items-center justify-center gap-1">
+                🎧 Audio Tinglash
+              </button>
+            </div>
+            <button onclick="openQuizModal(${b.id})" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 text-xs py-2 rounded-xl font-medium transition">
+              🧠 10 talik Test topshirish (+100 ball)
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changePage(delta) {
+      const newPage = state.catalog.page + delta;
+      if (newPage >= 1 && newPage <= 25000) {
+        state.catalog.page = newPage;
+        renderBooks();
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      }
+    }
+
+    function jumpToPage() {
+      const p = parseInt(document.getElementById('jumpPageInput').value, 10);
+      if (p >= 1 && p <= 25000) {
+        state.catalog.page = p;
+        renderBooks();
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      } else {
+        alert("1 dan 25,000 gacha sahifa tanlang.");
+      }
+    }
+
+    function findBookById(id) {
+      const master = MASTER_BOOKS.find(b => b.id === id);
+      if (master) return master;
+      const gen = getCatalogBooks(Math.ceil(id / 20), 20, "Barchasi", "");
+      return gen.find(b => b.id === id) || MASTER_BOOKS[0];
+    }
+
+    // --- RAVON AUDIO PLEYER (MP3 & UZBEK SPEECHSYNTHESIS TTS) ---
+    const audioEl = document.getElementById('coreAudioElement');
+
+    function setupAudioEvents() {
+      audioEl.addEventListener('timeupdate', () => {
+        if (!state.audio.isTtsMode && audioEl.duration) {
+          const percent = (audioEl.currentTime / audioEl.duration) * 100;
+          document.getElementById('audioProgressBarFill').style.width = percent + '%';
+          document.getElementById('audioCurrentTime').innerText = formatTime(audioEl.currentTime);
+          document.getElementById('audioTotalDuration').innerText = formatTime(audioEl.duration);
+        }
+      });
+      audioEl.addEventListener('ended', () => {
+        state.audio.isPlaying = false;
+        document.getElementById('audioPlayPauseBtn').innerText = "▶ O'ynash";
+        document.getElementById('audioProgressBarFill').style.width = '0%';
+      });
+    }
+
+    function playBookAudio(bookId) {
+      const book = findBookById(bookId);
+      if (!book) return;
+
+      state.audio.activeBook = book;
+      document.getElementById('audioPlayerTitle').innerText = book.title;
+      document.getElementById('audioPlayerSubtitle').innerText = book.author + " — Ravon Audio va Matn";
+
+      // If MP3 exists, play real stream; simultaneously prepare Uzbek sentence chunking TTS
+      state.audio.sentences = book.text.match(/[^.!?…;]+[.!?…;]+|\s*[^.!?…;]+$/g) || [book.text];
+      state.audio.currentSentenceIdx = 0;
+
+      // Start MP3 or TTS
+      audioEl.src = book.mp3;
+      audioEl.load();
+      audioEl.play().then(() => {
+        state.audio.isPlaying = true;
+        state.audio.isTtsMode = false;
+        document.getElementById('audioPlayPauseBtn').innerText = "⏸ Pauza";
+        document.getElementById('ttsCurrentSentenceBox').innerText = `Matn: "${state.audio.sentences[0] || book.text.slice(0, 60)}..."`;
+        showToast(`"${book.title}" audiosi ijro etilmoqda...`, '🎧');
+      }).catch(err => {
+        // Fallback directly to SpeechSynthesis TTS
+        startSpeechSynthesisPlayback();
+      });
+    }
+
+    function startSpeechSynthesisPlayback() {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      state.audio.isTtsMode = true;
+      state.audio.isPlaying = true;
+      document.getElementById('audioPlayPauseBtn').innerText = "⏸ Pauza";
+      speakNextSentence();
+    }
+
+    function speakNextSentence() {
+      const { sentences, currentSentenceIdx, isPlaying } = state.audio;
+      if (!isPlaying || currentSentenceIdx >= sentences.length) {
+        if (currentSentenceIdx >= sentences.length) {
+          stopAudioPlayback();
+          showToast("Kitob audiosi yakunlandi!", '🎉');
+        }
+        return;
+      }
+
+      const textChunk = sentences[currentSentenceIdx].trim();
+      document.getElementById('ttsCurrentSentenceBox').innerText = `O'qilmoqda: "${textChunk}"`;
+      document.getElementById('audioProgressBarFill').style.width = `${((currentSentenceIdx + 1) / sentences.length) * 100}%`;
+
+      // Android native TTS check
+      if (window.AndroidTTS && typeof window.AndroidTTS.speak === 'function') {
+        window.AndroidTTS.speak(textChunk);
+        setTimeout(() => {
+          if (state.audio.isPlaying) {
+            state.audio.currentSentenceIdx++;
+            speakNextSentence();
+          }
+        }, Math.max(2500, textChunk.length * 85));
+        return;
+      }
+
+      const utt = new SpeechSynthesisUtterance(textChunk);
+      utt.lang = 'uz-UZ';
+      utt.rate = 0.9;
+      utt.pitch = 1.0;
+
+      // Fallback voice selection
+      const voices = window.speechSynthesis.getVoices();
+      const uz = voices.find(v => v.lang.includes('uz'));
+      const fallback = voices.find(v => v.lang.includes('tr') || v.lang.includes('ru'));
+      if (uz) utt.voice = uz;
+      else if (fallback) utt.voice = fallback;
+
+      utt.onend = () => {
+        if (state.audio.isPlaying) {
+          state.audio.currentSentenceIdx++;
+          speakNextSentence();
+        }
+      };
+      utt.onerror = () => {
+        if (state.audio.isPlaying) {
+          state.audio.currentSentenceIdx++;
+          setTimeout(speakNextSentence, 400);
+        }
+      };
+
+      window.speechSynthesis.speak(utt);
+    }
+
+    function toggleAudioPlayback() {
+      if (!state.audio.activeBook) {
+        alert("Avval ro'yxatdan birorta kitobni tanlang!");
+        return;
+      }
+
+      if (state.audio.isPlaying) {
+        state.audio.isPlaying = false;
+        audioEl.pause();
+        if ('speechSynthesis' in window) window.speechSynthesis.pause();
+        document.getElementById('audioPlayPauseBtn').innerText = "▶ O'ynash";
+      } else {
+        state.audio.isPlaying = true;
+        if (!state.audio.isTtsMode && audioEl.src) {
+          audioEl.play();
+        } else {
+          if ('speechSynthesis' in window) window.speechSynthesis.resume();
+          if (!window.speechSynthesis.speaking) speakNextSentence();
+        }
+        document.getElementById('audioPlayPauseBtn').innerText = "⏸ Pauza";
+      }
+    }
+
+    function stopAudioPlayback() {
+      state.audio.isPlaying = false;
+      audioEl.pause();
+      audioEl.currentTime = 0;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      document.getElementById('audioPlayPauseBtn').innerText = "▶ O'ynash";
+      document.getElementById('audioProgressBarFill').style.width = '0%';
+      document.getElementById('audioCurrentTime').innerText = "00:00";
+      document.getElementById('ttsCurrentSentenceBox').innerText = "Audio to'xtatildi.";
+    }
+
+    function handleSeekAudio(e) {
+      const container = document.getElementById('audioProgressBarContainer');
+      const rect = container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+
+      if (!state.audio.isTtsMode && audioEl.duration) {
+        audioEl.currentTime = ratio * audioEl.duration;
+      } else if (state.audio.sentences.length > 0) {
+        state.audio.currentSentenceIdx = Math.floor(ratio * state.audio.sentences.length);
+        if (state.audio.isPlaying) {
+          window.speechSynthesis.cancel();
+          speakNextSentence();
+        }
+      }
+    }
+
+    function formatTime(sec) {
+      if (!sec || isNaN(sec)) return "00:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    // --- PDF MODAL LOGIKASI ---
+    function openPdfModal(bookId) {
+      const book = findBookById(bookId);
+      if (!book) return;
+
+      state.pdf.activeBook = book;
+      state.pdf.currentPage = 1;
+      state.pdf.totalPages = Math.max(12, Math.floor(book.pages / 10));
+
+      document.getElementById('pdfModalTitle').innerText = `${book.title} (PDF Elektron Mutolaa)`;
+      renderPdfSheet();
+      document.getElementById('pdfModal').classList.add('modal-active');
+    }
+
+    function renderPdfSheet() {
+      const { activeBook, currentPage, totalPages } = state.pdf;
+      document.getElementById('pdfPageLabel').innerText = `Sahifa: ${currentPage} / ${totalPages}`;
+      document.getElementById('pdfContentSheet').innerHTML = `
+        <div class="border-b border-primary/30 pb-2 mb-4 flex justify-between text-xs text-primaryLight font-bold">
+          <span>${activeBook.title} — ${activeBook.author}</span>
+          <span>Bob #${currentPage}</span>
+        </div>
+        <h3 class="text-base font-bold text-accentCream mb-3">${currentPage}-Bob: Tafakkur va Ilm Nuri</h3>
+        <p class="leading-relaxed mb-4">${activeBook.text}</p>
+        <p class="text-xs text-slate-400 italic">
+          Abdulboriy.uz raqamli kutubxonasidagi har bir sahifa sizga ulkan tafakkur va qalb xotirjamligini tuhfa etadi.
+        </p>
+      `;
+    }
+
+    function changePdfPage(delta) {
+      const next = state.pdf.currentPage + delta;
+      if (next >= 1 && next <= state.pdf.totalPages) {
+        state.pdf.currentPage = next;
+        renderPdfSheet();
+      }
+    }
+
+    function downloadPdfFile() {
+      const b = state.pdf.activeBook;
+      if (!b) return;
+      const textData = `Abdulboriy.uz — ${b.title}\nMuallif: ${b.author}\n\n${b.text}\n\n--- To'liq nusxa ---`;
+      const blob = new Blob([textData], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${b.title}_Abdulboriy_uz.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("PDF fayl yuklab olindi!", '📥');
+    }
+
+    // --- 10 TALIK TEST TOPSHIRISH (+100 BALL MUKOFOT) ---
+    function openQuizModal(bookId) {
+      const book = findBookById(bookId);
+      if (!book || !book.quiz || book.quiz.length === 0) return;
+
+      state.quiz.activeBook = book;
+      state.quiz.selectedAnswers = {};
+
+      document.getElementById('quizModalTitle').innerText = `${book.title}: 10 Talik Test`;
+      const container = document.getElementById('quizQuestionsContainer');
+
+      container.innerHTML = book.quiz.map((qItem, qIdx) => `
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+          <h4 class="font-bold text-xs text-accentCream mb-3">${qItem.q}</h4>
+          <div class="space-y-2">
+            ${qItem.opts.map((opt, oIdx) => `
+              <button type="button" id="quizBtn_${qIdx}_${oIdx}" onclick="selectQuizOption(${qIdx}, ${oIdx})" class="w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-lg text-xs text-slate-300 transition flex items-center gap-2">
+                <span class="font-bold text-primaryLight">${['A', 'B', 'C', 'D'][oIdx]})</span>
+                <span>${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('quizModal').classList.add('modal-active');
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      state.quiz.selectedAnswers[qIdx] = oIdx;
+      const totalOpts = state.quiz.activeBook.quiz[qIdx].opts.length;
+      for (let i = 0; i < totalOpts; i++) {
+        const btn = document.getElementById(`quizBtn_${qIdx}_${i}`);
+        if (btn) btn.className = "w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-lg text-xs text-slate-300 transition flex items-center gap-2";
+      }
+      const selBtn = document.getElementById(`quizBtn_${qIdx}_${oIdx}`);
+      if (selBtn) selBtn.className = "w-full text-left bg-primary/20 border border-primary p-2.5 rounded-lg text-xs text-primaryLight font-bold transition flex items-center gap-2";
+    }
+
+    function submitQuizAnswers() {
+      const { activeBook, selectedAnswers } = state.quiz;
+      const totalQ = activeBook.quiz.length;
+      let correct = 0;
+
+      activeBook.quiz.forEach((qItem, qIdx) => {
+        if (selectedAnswers[qIdx] === qItem.correct) {
+          correct++;
+        }
+      });
+
+      // Award +100 points
+      const earned = correct >= 5 ? 100 : correct * 10;
+      state.currentUser.points = (state.currentUser.points || 0) + earned;
+      saveUsers();
+
+      renderUI();
+      closeModal('quizModal');
+
+      alert(`Test Natijangiz:\n\nTo'g'ri javoblar: ${correct} / ${totalQ} ta!\nSizga +${earned} ball mukofot berildi! 🪙`);
+      showToast(`Test muvaffaqiyatli topshirildi! +${earned} ball qo'shildi.`, '🏆');
+    }
+
+    // --- FARG'ONA NAMOZ VAQTLARI & AZON OGOHLANTIRISH ---
+    const FERGANA_SCHEDULE = [
+      { name: "Bomdod", time: "05:28", icon: "🌅" },
+      { name: "Quyosh", time: "06:54", icon: "☀️" },
+      { name: "Peshin", time: "12:12", icon: "🌤️" },
+      { name: "Asr", time: "15:08", icon: "🌇" },
+      { name: "Shom", time: "17:15", icon: "🌆" },
+      { name: "Xufton", time: "18:42", icon: "🌙" }
+    ];
+
+    function renderPrayerGrid() {
+      const container = document.getElementById('prayerScheduleGrid');
+      const now = new Date();
+      const curM = now.getHours() * 60 + now.getMinutes();
+
+      let activeIdx = 0;
+      FERGANA_SCHEDULE.forEach((p, idx) => {
+        const [h, m] = p.time.split(':').map(Number);
+        if (curM >= h * 60 + m) activeIdx = idx;
+      });
+
+      container.innerHTML = FERGANA_SCHEDULE.map((p, idx) => {
+        const isCurrent = idx === activeIdx;
+        return `
+          <div class="glass-card p-3 text-center ${isCurrent ? 'border-primary bg-primary/10 shadow-lg shadow-primary/10' : ''}">
+            <div class="text-xl mb-1">${p.icon}</div>
+            <div class="text-xs font-bold text-slate-300">${p.name}</div>
+            <div class="text-base font-extrabold text-primaryLight mt-0.5">${p.time}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function startPrayerClock() {
+      setInterval(() => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('uz-UZ', { hour12: false });
+        const dateStr = now.toLocaleDateString('uz-UZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        const clock = document.getElementById('liveClockDisplay');
+        const date = document.getElementById('liveDateDisplay');
+        if (clock) clock.innerText = timeStr;
+        if (date) date.innerText = dateStr;
+
+        // Countdown
+        const curM = now.getHours() * 60 + now.getMinutes();
+        const curS = now.getSeconds();
+        let target = null;
+
+        for (let p of FERGANA_SCHEDULE) {
+          const [h, m] = p.time.split(':').map(Number);
+          const pM = h * 60 + m;
+          if (pM > curM) {
+            target = { ...p, mins: pM };
+            break;
+          }
+        }
+        if (!target) {
+          const [h, m] = FERGANA_SCHEDULE[0].time.split(':').map(Number);
+          target = { ...FERGANA_SCHEDULE[0], mins: 24 * 60 + (h * 60 + m) };
+        }
+
+        const diff = (target.mins * 60) - (curM * 60 + curS);
+        const hrs = Math.floor(diff / 3600);
+        const mins = Math.floor((diff % 3600) / 60);
+        const secs = diff % 60;
+
+        const countdownEl = document.getElementById('prayerCountdownText');
+        if (countdownEl) {
+          countdownEl.innerText = `Navbatdagi: ${target.name} namoziga ${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs} qoldi`;
+        }
+
+        if (diff === 0 && document.getElementById('azanToggle').checked) {
+          playAzanBeep(target.name);
+        }
+      }, 1000);
+    }
+
+    function playAzanBeep(prayerName) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 1.5);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 2.6);
+      } catch(e) {}
+      showToast(`${prayerName} vaqti kirdi! Namozni ado eting.`, '🕌');
+    }
+
+    // --- TO-DO TASKS & KUNDALIK LOGIKASI ---
+    function renderTasks() {
+      const container = document.getElementById('tasksList');
+      document.getElementById('todoCount').innerText = `${state.tasks.length} ta vazifa`;
+      if (state.tasks.length === 0) {
+        container.innerHTML = `<li class="text-xs text-slate-500 py-3 text-center">Hozircha vazifalar yo'q.</li>`;
+        return;
+      }
+      container.innerHTML = state.tasks.map(t => `
+        <li class="flex items-center justify-between p-2.5 bg-slate-900 border border-slate-800 rounded-xl ${t.done ? 'opacity-60 line-through' : ''}">
+          <label class="flex items-center gap-2 cursor-pointer text-xs flex-1">
+            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTaskDone(${t.id})" class="accent-primary w-4 h-4 rounded">
+            <span>${t.text}</span>
+          </label>
+          <button onclick="removeTask(${t.id})" class="text-slate-500 hover:text-red-400 text-xs px-2">✕</button>
+        </li>
+      `).join('');
+    }
+
+    function handleAddTask(e) {
+      e.preventDefault();
+      const input = document.getElementById('newTaskInput');
+      const val = input.value.trim();
+      if (!val) return;
+      state.tasks.unshift({ id: Date.now(), text: val, done: false });
+      input.value = '';
+      saveTasks();
+      renderTasks();
+      showToast("Vazifa qo'shildi!", '✅');
+    }
+
+    function toggleTaskDone(id) {
+      const t = state.tasks.find(x => x.id === id);
+      if (t) {
+        t.done = !t.done;
+        saveTasks();
+        renderTasks();
+      }
+    }
+
+    function removeTask(id) {
+      state.tasks = state.tasks.filter(x => x.id !== id);
+      saveTasks();
+      renderTasks();
+    }
+
+    function renderDiaries() {
+      const container = document.getElementById('diaryHistory');
+      if (state.diaries.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500">Kundalik yozuvlari yo'q.</p>`;
+        return;
+      }
+      container.innerHTML = state.diaries.map(d => `
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl text-xs space-y-1">
+          <div class="flex justify-between text-[11px] text-primaryLight font-bold">
+            <span>📅 ${d.date}</span>
+            <span>${d.mood}</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed">${d.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function handleSaveDiary() {
+      const text = document.getElementById('diaryTextInput').value.trim();
+      const mood = document.getElementById('diaryMoodSelect').value;
+      if (!text) {
+        alert("Iltimos, fikrlaringizni yozing.");
+        return;
+      }
+      state.diaries.unshift({
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        mood: mood,
+        text: text
+      });
+      document.getElementById('diaryTextInput').value = '';
+      saveDiaries();
+      renderDiaries();
+      showToast("Bugungi kundalik saqlandi!", '📔');
+    }
+
+    // --- SUXBAT AI ASSISTENTI ---
+    function handleSendChat(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const val = input.value.trim();
+      if (!val) return;
+      appendMessage(val, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        const reply = getAiResponse(val);
+        appendMessage(reply, 'bot');
+      }, 500);
+    }
+
+    function sendQuickPrompt(promptText) {
+      appendMessage(promptText, 'user');
+      setTimeout(() => {
+        const reply = getAiResponse(promptText);
+        appendMessage(reply, 'bot');
+      }, 500);
+    }
+
+    function appendMessage(text, sender) {
+      const box = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      if (sender === 'user') {
+        div.className = "bg-primary text-black font-semibold p-3 rounded-2xl rounded-tr-none ml-auto max-w-md text-xs";
+      } else {
+        div.className = "bg-slate-900 border border-primary/30 text-slate-200 p-3.5 rounded-2xl rounded-tl-none max-w-xl text-xs leading-relaxed";
+      }
+      div.innerHTML = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function getAiResponse(query) {
+      const q = query.toLowerCase();
+      if (q.includes('alkimyogar') || q.includes('santyago')) {
+        return `<strong>Alkimyogar</strong> asarining asosiy g'oyasi — har bir inson o'z Taqdiri (Personal Legend) sari intilishidir. Santyago boylik izlab Misr ehromlariga boradi, ammo haqiqiy xazina uning bosib o'tgan ma'naviy yo'li, vafodor muhabbati Fotima va o'z yuragini eshitish mahoratida edi.`;
+      }
+      if (q.includes('odat') || q.includes('klir')) {
+        return `Jeyms Klirning <strong>"Atom odatlari"</strong> qoidasiga ko'ra, har kuni 1% yaxshilanish yil yakunida sizni 37 barobar kuchaytiradi! Odatni shakllantirish uchun: 1) Uni ko'zga ko'rinarli qiling, 2) Jozibali qiling, 3) 2 daqiqa qoidasiga amal qiling va 4) Qoniqarli mukofot belgilang.`;
+      }
+      if (q.includes('namoz') || q.includes('farg\'ona') || q.includes('ruhiyat')) {
+        return `Namoz — qalb xotirjamligi va yuksak ruhiy intizom manbaidir. Farg'ona vaqti bo'yicha belgilangan 5 vaqt namoz insonni poklik, sabr va shukronalikka chorlaydi. Portalimizdagi eslatmalar sizga vaqtida ibodat qilishda yordam beradi.`;
+      }
+      return `Juda qiziqarli savol! <strong>Abdulboriy.uz</strong> portalidagi 500,000 ta kitoblar xazinasi aynan sizning intellektual va ma'naviy rivojlanishingiz uchun xizmat qiladi. Kitoblar bo'limidagi PDF o'quvchi orqali mutolaa qiling, audio orqali tinglang va testlarni topshirib ballar to'plang!`;
+    }
+
+    function clearChatHistory() {
+      document.getElementById('chatMessages').innerHTML = `
+        <div class="bg-slate-900 border border-primary/30 text-slate-200 p-3.5 rounded-2xl rounded-tl-none max-w-xl text-xs leading-relaxed">
+          Assalomu alaykum! Suxbat tarixi tozalandi. Savollaringizni yozishingiz mumkin.
+        </div>
+      `;
+    }
+
+    // --- SOVG'ALAR DO'KONI (SHOP) ---
+    function renderShop() {
+      const container = document.getElementById('shopGrid');
+      container.innerHTML = STORE_ITEMS.map(item => `
+        <div class="glass-card p-5 text-center flex flex-col justify-between hover:border-primary/50 transition">
+          <div>
+            <div class="text-4xl mb-2">${item.icon}</div>
+            <h4 class="font-bold text-sm text-accentCream mb-1">${item.title}</h4>
+            <div class="text-primaryLight font-extrabold text-sm mb-2">🪙 ${item.price.toLocaleString()} ball</div>
+            <p class="text-xs text-slate-400 mb-4">${item.desc}</p>
+          </div>
+          <button onclick="buyStoreItem('${item.id}')" class="w-full gold-gradient-btn py-2 rounded-xl text-xs font-bold">
+            Sotib Olish
+          </button>
+        </div>
+      `).join('');
+      renderInventoryList();
+    }
+
+    function buyStoreItem(itemId) {
+      const item = STORE_ITEMS.find(x => x.id === itemId);
+      if (!item) return;
+
+      const user = state.currentUser;
+      if ((user.points || 0) < item.price) {
+        alert(`Ballar yetarli emas!\n\n"${item.title}" narxi: ${item.price.toLocaleString()} ball.\nSizda mavjud: ${(user.points || 0).toLocaleString()} ball.\n\nKitob testlarini topshirib yangi ballar to'plang!`);
+        return;
+      }
+
+      if (confirm(`"${item.title}"ni ${item.price.toLocaleString()} ball evaziga sotib olasizmi?`)) {
+        user.points -= item.price;
+        saveUsers();
+        state.inventory.push({
+          id: Date.now(),
+          title: item.title,
+          icon: item.icon,
+          date: new Date().toLocaleDateString('uz-UZ')
+        });
+        saveInventory();
+        renderUI();
+        showToast(`"${item.title}" xarid qilindi!`, '🎁');
+      }
+    }
+
+    function renderInventoryList() {
+      const container = document.getElementById('inventoryContainer');
+      if (state.inventory.length === 0) {
+        container.innerHTML = `<span class="text-slate-500">Hozircha xaridlar yo'q. Kitob testlarini topshirib ball to'plang!</span>`;
+        return;
+      }
+      container.innerHTML = state.inventory.map(inv => `
+        <div class="bg-slate-900 border border-primary/40 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs">
+          <span>${inv.icon}</span>
+          <strong class="text-slate-200">${inv.title}</strong>
+          <span class="text-[10px] text-slate-500">(${inv.date})</span>
+        </div>
+      `).join('');
+    }
+
+    // --- MENEJER (ADMIN) BOSHQARUV PANELI ---
+    function renderAdmin() {
+      if (state.currentUser.role !== 'admin') return;
+
+      document.getElementById('adminTotalUsersCount').innerText = state.users.length;
+      document.getElementById('adminActiveUsersCount').innerText = state.users.filter(u => !u.blocked).length;
+      document.getElementById('adminBlockedUsersCount').innerText = state.users.filter(u => u.blocked).length;
+
+      const tbody = document.getElementById('adminUsersTable');
+      tbody.innerHTML = state.users.map(u => `
+        <tr class="hover:bg-slate-900/50 transition">
+          <td class="p-3 font-semibold text-slate-200">${u.name}</td>
+          <td class="p-3 font-mono text-slate-400">${u.username}</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-primary/20 text-primaryLight border border-primary/30' : 'bg-slate-800 text-slate-300'}">
+              ${u.role === 'admin' ? 'Boshqaruvchi' : 'Foydalanuvchi'}
+            </span>
+          </td>
+          <td class="p-3 font-bold text-primaryLight">🪙 ${(u.points || 0).toLocaleString()}</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.blocked ? 'bg-red-950 text-red-400 border border-red-800' : 'bg-emerald-950 text-emerald-400 border border-emerald-800'}">
+              ${u.blocked ? 'Haydalgan (Bloklangan)' : 'Faol'}
+            </span>
+          </td>
+          <td class="p-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="adminAdjustUserPoints('${u.id}', 100)" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] px-2 py-1 rounded text-primaryLight font-bold" title="+100 ball">+100</button>
+            <button onclick="adminAdjustUserPoints('${u.id}', -100)" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] px-2 py-1 rounded text-slate-400 font-bold" title="-100 ball">-100</button>
+            ${u.role !== 'admin' ? `
+              <button onclick="adminToggleBlockUser('${u.id}')" class="px-2 py-1 rounded text-[11px] font-bold ${u.blocked ? 'bg-emerald-900/60 text-emerald-300' : 'bg-red-950 text-red-400 border border-red-800'}">
+                ${u.blocked ? 'Tiklash' : 'Haydash (Block)'}
+              </button>
+              <button onclick="adminDeleteUser('${u.id}')" class="bg-red-900/40 hover:bg-red-800 text-red-300 px-2 py-1 rounded text-[11px]" title="O'chirish">🗑️</button>
+            ` : '<span class="text-[10px] text-slate-500 font-semibold">Admin</span>'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function adminAdjustUserPoints(userId, delta) {
+      const u = state.users.find(x => x.id === userId);
+      if (!u) return;
+      u.points = Math.max(0, (u.points || 0) + delta);
+      saveUsers();
+      renderUI();
+      showToast(`${u.name} ballari ${delta > 0 ? '+' : ''}${delta} ga o'zgardi.`, '🪙');
+    }
+
+    function adminToggleBlockUser(userId) {
+      const u = state.users.find(x => x.id === userId);
+      if (!u || u.role === 'admin') return;
+
+      u.blocked = !u.blocked;
+      saveUsers();
+      renderUI();
+
+      if (u.blocked) {
+        showToast(`${u.name} tizimdan haydaldi va bloklandi!`, '🚫');
+      } else {
+        showToast(`${u.name} hisobi qayta tiklandi.`, '✅');
+      }
+    }
+
+    function adminDeleteUser(userId) {
+      const u = state.users.find(x => x.id === userId);
+      if (!u || u.role === 'admin') return;
+
+      if (confirm(`Haqiqatan ham ${u.name} foydalanuvchisini o'chirib tashlamoqchimisiz?`)) {
+        state.users = state.users.filter(x => x.id !== userId);
+        saveUsers();
+        renderUI();
+        showToast("Foydalanuvchi butunlay o'chirildi.", '🗑️');
+      }
+    }
+
+    function openAddUserModal() {
+      document.getElementById('addUserModal').classList.add('modal-active');
+    }
+
+    function handleCreateUser(e) {
+      e.preventDefault();
+      const fio = document.getElementById('adminUserFio').value.trim();
+      const login = document.getElementById('adminUserLogin').value.trim();
+      const pass = document.getElementById('adminUserPassword').value.trim();
+      const pts = parseInt(document.getElementById('adminUserPoints').value, 10) || 100;
+
+      if (state.users.some(u => u.username.toLowerCase() === login.toLowerCase())) {
+        alert("Bunday loginli foydalanuvchi mavjud!");
+        return;
+      }
+
+      state.users.push({
+        id: "usr_" + Date.now(),
+        name: fio,
+        username: login,
+        password: pass,
+        role: "user",
+        points: pts,
+        blocked: false
+      });
+
+      saveUsers();
+      closeModal('addUserModal');
+      renderUI();
+      showToast(`Yangi foydalanuvchi (${fio}) muvaffaqiyatli qo'shildi!`, '👤');
+    }
+
+    function handleAdminAddBook(e) {
+      e.preventDefault();
+      const title = document.getElementById('adminNewTitle').value.trim();
+      const author = document.getElementById('adminNewAuthor').value.trim();
+      const category = document.getElementById('adminNewCategory').value;
+      const pages = parseInt(document.getElementById('adminNewPages').value, 10) || 200;
+      const text = document.getElementById('adminNewText').value.trim() || `${title} asari inson ma'naviyati va tafakkurini rivojlantiruvchi ajoyib durdonadir.`;
+
+      const newB = {
+        id: Date.now(),
+        title: title,
+        author: author,
+        category: category,
+        pages: pages,
+        year: new Date().getFullYear(),
+        mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        text: text,
+        quiz: [
+          { q: `1. '${title}' asarining muallifi kim?`, opts: [author, "Noma'lum", "A. Qodiriy", "G'. G'ulom"], correct: 0 },
+          { q: "2. Asar qaysi yo'nalishga oid?", opts: [category, "Sport", "Fizika", "Musiqa"], correct: 0 },
+          { q: "3. Kitobning asosiy xabari nima?", opts: ["Tafakkur va ma'naviyat", "Qo'rquv", "Kutish", "Hech narsa"], correct: 0 }
+        ]
+      };
+
+      MASTER_BOOKS.unshift(newB);
+      renderBooks();
+      e.target.reset();
+      showToast(`Yangi kitob (${title}) 500,000 talik bazaga qo'shildi!`, '📚');
+    }
+
+    // --- MODAL UTILITIES ---
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('modal-active');
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('backdrop-blur-sm')) {
+        e.target.classList.remove('modal-active');
+      }
+    });
+
+    // Start on DOM ready
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

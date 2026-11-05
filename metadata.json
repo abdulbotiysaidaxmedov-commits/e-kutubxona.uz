@@ -1,0 +1,6 @@
+{
+  "name": "Abdulboriy.uz",
+  "description": "Abdulboriy.uz - 500,000 kitoblar katalogi, audio TTS, namoz vaqtlari, AI suhbat, PDF o'quvchi va boshqaruv platformasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
